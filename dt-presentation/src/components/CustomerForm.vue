@@ -1,8 +1,8 @@
 <template>
-  <div class="language-switcher text-center m-3">
+  <!-- <div class="language-switcher text-center m-3">
     <button class="btn btn-primary me-2" @click="changeLanguage('en')">English</button>
     <button class="btn btn-primary" @click="changeLanguage('fr')">Français</button>
-  </div>
+  </div> -->
 
       <h1 class="m-3 text-center">{{ $t('page_title') }}</h1>
 

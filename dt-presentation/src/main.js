@@ -1,11 +1,10 @@
 import { createApp } from 'vue';
-import App from './App.vue';
 import { createI18n } from 'vue-i18n';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
-
-// Importer Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import App from './App.vue';
+import router from './router';
 
 // L'anglais est la langue par défaut
 const defaultLanguage = 'en';
@@ -21,5 +20,6 @@ const i18n = createI18n({
 });
 
 createApp(App)
+  .use(router) 
   .use(i18n)
   .mount('#app');
