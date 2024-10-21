@@ -1,34 +1,23 @@
-<template>
-  <h1 class="m-3 text-center">Upload Developers CSV</h1>
-  <div class="container col-12 col-md-10 bg-light p-3">
-    <form class="p-3 fs-5 text bg-light rounded-2" @submit.prevent="uploadFile">
-      <input type="file" @change="handleFileUpload" accept=".csv" required class="form-control mb-3"/>
-      <button class="btn btn-primary fs-5" type="submit">SEND</button>
-    </form>
-
-    <!-- Message de succès ou d'erreur -->
-    <div v-if="message" :class="['mt-3', messageType === 'success' ? 'text-success' : 'text-danger']">
-      {{ message }}
-    </div>
-  </div>
-</template>
-
 <script>
+import axiosClient from '@/services/axiosClient';
 import axios from 'axios';
+
 
 
 export default {
   data() {
     return {
-      selectedFile: null,
+      selectedFile: '',
       message: '',
       messageType: '',
     };
   },
   methods: {
-    handleFileUpload(event) {
-      this.selectedFile = event.target.files[0];
+    handleFileUpload() {
+      this.selectedFile = this.$refs.selectedFile.files[0];
     },
+    
+  
     async uploadFile() {
       if (!this.selectedFile) {
         this.message = 'Please select a file';
@@ -47,7 +36,7 @@ export default {
       formData.append('file', this.selectedFile);
 
       try {
-        const response = await axios.post('/upload', formData, {
+        await axiosClient.post('/developers/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -62,6 +51,23 @@ export default {
   }
 };
 </script>
+
+<template>
+  <h1 class="m-3 text-center">Upload Developers CSV</h1>
+  <div class="container col-12 col-md-10 bg-light p-3">
+    <form @submit.prevent="uploadFile" enctype="multipart/form-data" class="p-3 fs-5 text bg-light rounded-2">
+      <input ref="selectedFile" type="file" @change="handleFileUpload" accept=".csv" required class="form-control mb-3"/>
+      <button class="btn btn-primary fs-5" type="submit">SEND</button>
+    </form>
+
+    <!-- Message de succès ou d'erreur -->
+    <div v-if="message" :class="['mt-3', messageType === 'success' ? 'text-success' : 'text-danger']">
+      {{ message }}
+    </div>
+  </div>
+</template>
+
+
 
 <style scoped>
 .upload-container {
